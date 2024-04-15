@@ -1,0 +1,24 @@
+Client Side Rendering
+
+Objective of this project is to perform DOM manipulation operations in client side. Virtual DOM libraries are not allowed. Only vanilla Js is allowed. 
+
+There is only one index.html and in the client side this index.html content is deleted when the index is updated to the new content. Every html element is created bt DOM operations.
+
+Requirements
+1) Virtual DOM libraries like react are not allowed
+2) Vanilla Js and DOM api allowed
+3) Database required
+4) No use of any bundler like webpack
+
+Features
+1) List all tasks from browser (with filters done and undone tasks)
+2) Add a task from browser
+3) Mark a task as done
+4) Mark a task as undone
+5) Delete a task
+6) Update a task
+7) Authorization
+8) Signup
+9) Profile
+
+Once the user is signed in, their todo list is displayed on the web. User can upload, download and delete image files in AWS S3.
