@@ -121,7 +121,6 @@ async function todoFunction(contentDiv, username){
       todoImg.setAttribute("id", "todoImg");
       todoImg.setAttribute('width', '75');
       todoImg.setAttribute('height', '75');
-      //todoImg.style.marginLeft = '600px';
       imageTd.appendChild(todoImg);
 
 
@@ -240,19 +239,13 @@ async function todoFunction(contentDiv, username){
       uploadInput.setAttribute('accept', 'image/*');
       tr.appendChild(uploadInput);
 
+      //<button type="submit" id="imageDeleteBtn" class="btn btn-primary">Delete Image</button>
       const imageDeleteBtn = document.createElement('button');
       imageDeleteBtn.setAttribute('id', 'imageDeleteBtn');
       imageDeleteBtn.setAttribute('type', 'submit');
       imageDeleteBtn.setAttribute('class', 'btn btn-primary');
       imageDeleteBtn.textContent = 'Delete Image';
       tr.appendChild(imageDeleteBtn);
-
-      const imageDownloadBtn = document.createElement('button');
-      imageDownloadBtn.setAttribute('id', 'imageDownloadBtn');
-      imageDownloadBtn.setAttribute('type', 'submit');
-      imageDownloadBtn.setAttribute('class', 'btn btn-primary');
-      imageDownloadBtn.textContent = 'Download Image';
-      tr.appendChild(imageDownloadBtn);
 
       // Function to upload image to AWS S3
       async function uploadToS3(file) {
@@ -275,12 +268,21 @@ async function todoFunction(contentDiv, username){
             method: 'PUT',
             body: file
         });
-
+        const filename = file.name;
         if (uploadResponse.ok) {
             console.log('File uploaded successfully');
             alert('File uploaded successfully');
-            // Optionally, display the uploaded image
-            document.getElementById('todoImg').src = imageUrl;
+
+            //Display the image
+            const displayImage = await fetch(`/getObject?filename=${filename}`);
+            if(displayImage.ok) {
+              const blob = await displayImage.blob();
+              const url = window.URL.createObjectURL(blob);
+              document.getElementById('todoImg').src = url;
+            } else {
+              console.error('Failed to display image');
+            }
+
         } else {
             console.error('Failed to upload file');
         }
@@ -292,28 +294,6 @@ async function todoFunction(contentDiv, username){
         const file = event.target.files[0];
         uploadToS3(file);
       });
-
-      // Event listener for image download button
-      imageDownloadBtn.addEventListener('click', async (event) => {
-        event.preventDefault();
-        const imageUrl = document.getElementById('todoImg').src;
-        const filename = imageUrl.substring(imageUrl.lastIndexOf('/') + 1);
-
-        const response = await fetch(`/getObject?filename=${filename}`);
-        if(response.ok) {
-          const blob = await response.blob();
-          const url = window.URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = url;
-          a.download = filename;
-          document.body.appendChild(a);
-          a.click();
-          window.URL.revokeObjectURL(url);
-        } else {
-          alert('Failed to download image');
-        }
-      });
-
 
 
       // Event listener for image delete button
