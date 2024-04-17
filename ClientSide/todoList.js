@@ -119,6 +119,7 @@ async function todoFunction(contentDiv, username){
 
       const todoImg = document.createElement('img');
       todoImg.setAttribute("id", "todoImg");
+      todoImg.setAttribute("src", "");
       todoImg.setAttribute('width', '75');
       todoImg.setAttribute('height', '75');
       imageTd.appendChild(todoImg);
