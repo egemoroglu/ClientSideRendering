@@ -5,8 +5,6 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const ejs = require('ejs');
 const aws = require('aws-sdk');
-const { S3Client, S3 } = require('@aws-sdk/client-s3');
-const {DeleteObjectCommand} = require('@aws-sdk/client-s3');
 const db = require('./config/database.js');
 
 const s3 = new aws.S3({
