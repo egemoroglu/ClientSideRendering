@@ -3,42 +3,31 @@ const db = require('../model/database');
 class UserService {
 
     async addUser(username, password) {
-        return new Promise((resolve, reject) => {
-            db.addUser(username, password, function(err, result) {
-                if(err) {
-                    reject(err);
-                } else {
-                    resolve(result);
-                }
-            });
-        });
+        try {
+            const result = await db.addUser(username, password);
+            return result;
+        } catch (error) {
+            throw error;
+        }
     }
 
     async findUser(username, password) {
-        return new Promise((resolve, reject) => {
-            db.findUser(username, password, function(err, result) {
-                if(err) {
-                    reject(err);
-                } else {
-                    resolve(result);
-                }
-            });
-        });
+        try {
+            const result = await db.findUser(username, password);
+            return result;
+        } catch (error) {
+            throw error;
+        }
     }
 
     async findUsername(username) {
-        return new Promise((resolve, reject) => {
-            db.findUsername(username, function(err, result) {
-                if(err) {
-                    reject(err);
-                } else {
-                    resolve(result);
-                }
-            });
-        });
+        try {
+            const result = await db.findUsername(username);
+            return result;
+        } catch (error) {
+            throw error;
+        }
     }
-    
-
 }
 
 module.exports = new UserService();

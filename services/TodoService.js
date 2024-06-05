@@ -1,100 +1,76 @@
 const db = require('../model/database');
 
 class TodoService {
-    async selectAll(username) {
-        return new Promise((resolve, reject) => {
-            db.selectAll(username, function(err, result) {
-                if(err) {
-                    reject(err);
-                } else {
-                    resolve(result);
-                }
-            });
-        });
+    async selectAll() {
+        try {
+            const result = await db.selectAll();
+            return result.rows;
+        } catch (error) {
+            throw error;
+        }
     }
 
-    async selectDone(username) {
-        return new Promise((resolve, reject) => {
-            db.selectDone(username, function(err, result) {
-                if(err) {
-                    reject(err);
-                } else {
-                    resolve(result);
-                }
-            });
-        });
+    async selectDone() {
+        try {
+            const result = await db.selectDone();
+            return result.rows;
+        } catch (error) {
+            throw error;
+        }
     }
 
-    async selectUndone(username) {
-        return new Promise((resolve, reject) => {
-            db.selectUndone(username, function(err, result) {
-                if(err) {
-                    reject(err);
-                } else {
-                    resolve(result);
-                }
-            });
-        });
+    async selectUndone() {
+        try {
+            const result = await db.selectUndone();
+            return result.rows;
+        } catch (error) {
+            throw error;
+        }
     }
 
     async insert(title, username) {
-        return new Promise((resolve, reject) => {
-            db.addTask(title, username, function(err, result) {
-                if(err) {
-                    reject(err);
-                } else {
-                    resolve(result);
-                }
-            });
-        });
+        try {
+            const result = await db.addTask(title, username);
+            return result;
+        } catch (error) {
+            throw error;
+        }
     }
 
     async update(id, title) {
-        return new Promise((resolve, reject) => {
-            db.updateTask(id, title, function(err, result) {
-                if(err) {
-                    reject(err);
-                } else {
-                    resolve(result);
-                }
-            });
-        });
+        try {
+            const result = await db.updateTask(id, title);
+            return result;
+        } catch (error) {
+            throw error;
+        }
     }
 
     async delete(id) {
-        return new Promise((resolve, reject) => {
-            db.deleteTask(id, function(err, result) {
-                if(err) {
-                    reject(err);
-                } else {
-                    resolve(result);
-                }
-            });
-        });
+        try {
+            const result = await db.deleteTask(id);
+            return result;
+        } catch (error) {
+            throw error;
+        }
     }
 
     async markDone(id) {
-        return new Promise((resolve, reject) => {
-            db.markDone(id, function(err, result) {
-                if(err) {
-                    reject(err);
-                } else {
-                    resolve(result);
-                }
-            });
-        });
+        try {
+            const result = await db.markDone(id);
+            return result;
+        } catch (error) {
+            throw error;
+        }
     }
 
     async markUndone(id) {
-        return new Promise((resolve, reject) => {
-            db.markUndone(id, function(err, result) {
-                if(err) {
-                    reject(err);
-                } else {
-                    resolve(result);
-                }
-            });
-        });
+        try {
+            const result = await db.markUndone(id);
+            return result;
+        } catch (error) {
+            throw error;
+        }
     }
 }
 
