@@ -1,38 +1,38 @@
 const connection = require('./connection');
 
-const database = {
+class Database {
     // Select All Items
-    selectAll: function() {
+    selectAll() {
         return new Promise((resolve, reject) => {
             connection.query("SELECT * FROM todo", (err, result) => {
                 if (err) reject(err);
                 else resolve(result);
             });
         });
-    },
+    }
 
     // Select Undone Items
-    selectUndone: function() {
+    selectUndone() {
         return new Promise((resolve, reject) => {
             connection.query("SELECT * FROM todo WHERE done = false", (err, result) => {
                 if (err) reject(err);
                 else resolve(result);
             });
         });
-    },
+    }
 
     // Select Done Items
-    selectDone: function() {
+    selectDone() {
         return new Promise((resolve, reject) => {
             connection.query("SELECT * FROM todo WHERE done = true", (err, result) => {
                 if (err) reject(err);
                 else resolve(result);
             });
         });
-    },
+    }
 
     // Add Task
-    addTask: function(title, assignee) {
+    addTask(title, assignee) {
         return new Promise((resolve, reject) => {
             const query = "INSERT INTO todo (title, assignee, done) VALUES ($1, $2, $3)";
             const values = [title, assignee, false];
@@ -41,50 +41,50 @@ const database = {
                 else resolve(result);
             });
         });
-    },
+    }
 
     // Update Task
-    updateTask: function(id, title) {
+    updateTask(id, title) {
         return new Promise((resolve, reject) => {
             connection.query("UPDATE todo SET title = $1 WHERE id = $2", [title, id], (err, result) => {
                 if (err) reject(err);
                 else resolve(result);
             });
         });
-    },
+    }
 
     // Delete Task
-    deleteTask: function(id) {
+    deleteTask(id) {
         return new Promise((resolve, reject) => {
             connection.query('DELETE FROM todo WHERE id = $1', [id], (err, result) => {
                 if (err) reject(err);
                 else resolve(result);
             });
         });
-    },
+    }
 
     // Mark Undone Task as Done
-    markDone: function(id) {
+    markDone(id) {
         return new Promise((resolve, reject) => {
             connection.query("UPDATE todo SET done = true WHERE id = $1", [id], (err, result) => {
                 if (err) reject(err);
                 else resolve(result);
             });
         });
-    },
+    }
 
     // Mark Done Task as Undone
-    markUndone: function(id) {
+    markUndone(id) {
         return new Promise((resolve, reject) => {
             connection.query("UPDATE todo SET done = false WHERE id = $1", [id], (err, result) => {
                 if (err) reject(err);
                 else resolve(result);
             });
         });
-    },
+    }
 
     // Add User
-    addUser: function(username, password) {
+    addUser(username, password) {
         return new Promise((resolve, reject) => {
             const query = "INSERT INTO users (username, password) VALUES ($1, $2)";
             const values = [username, password];
@@ -93,10 +93,10 @@ const database = {
                 else resolve(result);
             });
         });
-    },
+    }
 
     // Find User
-    findUser: function(username, password) {
+    findUser(username, password) {
         return new Promise((resolve, reject) => {
             const query = "SELECT * FROM users WHERE username = $1 AND password = $2";
             const values = [username, password];
@@ -105,10 +105,10 @@ const database = {
                 else resolve(result);
             });
         });
-    },
+    }
 
     // Find Username
-    findUsername: function(username) {
+    findUsername(username) {
         return new Promise((resolve, reject) => {
             const query = "SELECT * FROM users WHERE username = $1";
             connection.query(query, [username], (err, result) => {
@@ -117,6 +117,6 @@ const database = {
             });
         });
     }
-};
+}
 
-module.exports = database;
+module.exports = new Database();

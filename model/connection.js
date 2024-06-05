@@ -1,17 +1,25 @@
-const {Client} = require('pg');
+const { Client } = require('pg');
+class DatabaseConnection {
+    constructor() {
+        this.client = new Client({
+            user: process.env.DATABASE_USER,
+            host: process.env.DATABASE_HOST,
+            database: process.env.DATABASE_NAME,
+            password: process.env.DATABASE_PASSWORD,
+            port: 5432,
+            ssl: {
+                rejectUnauthorized: false
+            }
+        });
 
-const client = new Client({
-    user: process.env.DATABASE_USER,
-    host: process.env.DATABASE_HOST,
-    database: process.env.DATABASE_NAME,
-    password: process.env.DATABASE_PASSWORD,
-    port: 5432
-});
+        this.client.connect()
+            .then(() => console.log('Connected to database'))
+            .catch((err) => console.log('Error: ' + err));
+    }
 
-client.connect().then(function(){
-    console.log('Connected to database');
-}).catch(function(err){
-    console.log('Error: ' + err);
-});
+    getClient() {
+        return this.client;
+    }
+}
 
-module.exports = client;
+module.exports = new DatabaseConnection().getClient();
